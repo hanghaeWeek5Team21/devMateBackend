@@ -14,4 +14,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findLoginIdDuplicateUsers(String loginId);
 
     Optional<User> findByLoginId(String loginId);
+
+    List<User> findAllByOrderByModifiedAtDesc();
 }

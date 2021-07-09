@@ -1,5 +1,6 @@
 package com.sparta.devmatebackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sparta.devmatebackend.dto.UserRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ public class User extends Timestamped{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String loginId;
+    @JsonIgnore
     private String password;
     private String name;
     @Enumerated(EnumType.STRING)
