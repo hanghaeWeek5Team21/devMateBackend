@@ -30,4 +30,10 @@ public class CommentService {
         );
         commentRepository.delete(comment);
     }
+
+    @Transactional
+    public void save(CommentRequestDto requestDto){
+        Comment comment = new Comment(requestDto);
+        commentRepository.save(comment);
+    }
 }
