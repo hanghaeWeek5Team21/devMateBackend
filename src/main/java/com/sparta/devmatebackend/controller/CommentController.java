@@ -1,5 +1,6 @@
 package com.sparta.devmatebackend.controller;
 
+import com.sparta.devmatebackend.dto.CommentPutRequestDto;
 import com.sparta.devmatebackend.dto.CommentRequestDto;
 import com.sparta.devmatebackend.models.Comment;
 import com.sparta.devmatebackend.repository.CommentRepository;
@@ -22,5 +23,10 @@ public class CommentController {
     @DeleteMapping("api/comment/{comment_id}")
     public void delete(@PathVariable Long id){
         commentService.delete(id);
+    }
+
+    @PutMapping("api/comment/{comment_id}")
+    public Long update(@PathVariable Long id, @RequestBody CommentPutRequestDto requestDto){
+        return commentService.update(id,requestDto);
     }
 }
