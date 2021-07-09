@@ -1,5 +1,6 @@
 package com.sparta.devmatebackend.models;
 
+import com.sparta.devmatebackend.dto.UserRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,5 +30,14 @@ public class User extends Timestamped{
         this.skill = skill;
         this.introduce = introduce;
         this.imageUrl = imageUrl;
+    }
+
+    public User(UserRequestDto userRequestDto){
+        this.loginId = userRequestDto.getLogin_id();
+        this.password = userRequestDto.getPassword();
+        this.name = userRequestDto.getName();
+        this.skill = userRequestDto.getSkill();
+        this.introduce = userRequestDto.getIntroduce();
+        this.imageUrl = userRequestDto.getImage_url();
     }
 }
