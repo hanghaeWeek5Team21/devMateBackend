@@ -10,8 +10,8 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    @Query("select u from User u where u.loginId = :loginId")
-    List<User> findLoginIdDuplicateUsers(String loginId);
+    @Query("select u from User u where u.username = :username")
+    List<User> findLoginIdDuplicateUsers(String username);
 
-    Optional<User> findByLoginId(String loginId);
+    Optional<User> findByUsername(String username);
 }
