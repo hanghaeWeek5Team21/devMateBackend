@@ -16,7 +16,7 @@ public class User extends Timestamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String loginId;
+    private String username;
     @JsonIgnore
     private String password;
     private String name;
@@ -25,8 +25,8 @@ public class User extends Timestamped{
     private String introduce;
     private String imageUrl;
 
-    public User(String loginId, String password, String name, Skill skill, String introduce, String imageUrl) {
-        this.loginId = loginId;
+    public User(String username, String password, String name, Skill skill, String introduce, String imageUrl) {
+        this.username = username;
         this.password = password;
         this.name = name;
         this.skill = skill;
@@ -35,7 +35,15 @@ public class User extends Timestamped{
     }
 
     public User(UserRequestDto userRequestDto){
-        this.loginId = userRequestDto.getLogin_id();
+        this.username = userRequestDto.getUsername();
+        this.password = userRequestDto.getPassword();
+        this.name = userRequestDto.getName();
+        this.skill = userRequestDto.getSkill();
+        this.introduce = userRequestDto.getIntroduce();
+        this.imageUrl = userRequestDto.getImage_url();
+    }
+
+    public void update(UserRequestDto userRequestDto){
         this.password = userRequestDto.getPassword();
         this.name = userRequestDto.getName();
         this.skill = userRequestDto.getSkill();

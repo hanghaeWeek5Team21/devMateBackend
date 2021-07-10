@@ -10,7 +10,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class UserController {
@@ -24,7 +23,6 @@ public class UserController {
     }
 
     // 아이디 중복 체그용
-    // @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(value = "api/user", params = "login_id")
     public ResMesResultResponseDto checkLoginIdDuplicate(@RequestParam(name = "login_id") String loginId){
         boolean isDuplicate = userService.isLoginIdDuplicate(loginId);
@@ -36,7 +34,7 @@ public class UserController {
 
     // 회원가입
     @PostMapping("api/user")
-    public ResMesResultResponseDto createUser(@RequestBody UserRequestDto userRequestDto){
+    public ResMesResultResponseDto createUser(UserRequestDto userRequestDto){
         ResMesResultResponseDto resDto = new ResMesResultResponseDto();
         resDto.setResult(null);
         try{
@@ -53,14 +51,25 @@ public class UserController {
 
     // 회원수정  TODO : 로그인 구현되면 구현
     @PatchMapping("api/user")
-    public ResMesResultResponseDto updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody UserRequestDto userRequestDto){
+    public ResMesResultResponseDto updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails, UserRequestDto userRequestDto){
         ResMesResultResponseDto resDto = new ResMesResultResponseDto();
+        resDto.setResult(null);
+        try{
+            userService.updateUser(userDetails, userRequestDto);
+            resDto.setRes(true);
+            resDto.setMsg("유저가 정상적으로 수정되었습니다.");
+        }catch (Exception e){
+            resDto.setRes(false);
+            resDto.setMsg(e.getMessage());
+            System.out.println(e.getMessage());
+        }
         return resDto;
     }
 
     // 회원 전체 조회
     @GetMapping("api/user")
-    public ResMesResultResponseDto getAllUser(){
+    public ResMesResultResponseDto getAllUser(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        System.out.println("userDetails = " + userDetails);
         ResMesResultResponseDto resDto = new ResMesResultResponseDto();
         try{
             List<User> allUser = userRepository.findAllByOrderByModifiedAtDesc();

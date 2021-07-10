@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Configuration
@@ -23,15 +24,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.headers().frameOptions().disable();
         http.cors().configurationSource(request -> {
             var cors = new CorsConfiguration();
-            cors.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost", "http://127.0.0.1:80", "http://example.com"));
+            cors.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
             cors.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE", "OPTIONS"));
-            cors.setAllowedHeaders(Arrays.asList("*"));
+            cors.setAllowedHeaders(Collections.singletonList("*"));
             return cors;
         }).and().authorizeRequests()
                 // image 폴더를 login 없이 허용
@@ -47,7 +54,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/user/login")
                 .loginProcessingUrl("/api/user/login")
-                .defaultSuccessUrl("/success",true)
+                .defaultSuccessUrl("http://localhost:3000/")
+                .failureUrl("/user/login/error")
                 .permitAll()
                 .and()
                 .logout()
@@ -57,10 +65,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .accessDeniedPage("/user/forbidden");
 
-    }
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
     }
 }

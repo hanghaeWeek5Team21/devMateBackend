@@ -10,10 +10,8 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    @Query("select u from User u where u.loginId = :loginId")
-    List<User> findLoginIdDuplicateUsers(String loginId);
-
-    Optional<User> findByLoginId(String loginId);
-
+    @Query("select u from User u where u.username = :username")
+    List<User> findLoginIdDuplicateUsers(String username);
     List<User> findAllByOrderByModifiedAtDesc();
+    Optional<User> findByUsername(String username);
 }

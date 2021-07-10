@@ -3,6 +3,7 @@ package com.sparta.devmatebackend.service;
 import com.sparta.devmatebackend.dto.UserRequestDto;
 import com.sparta.devmatebackend.models.User;
 import com.sparta.devmatebackend.repository.UserRepository;
+import com.sparta.devmatebackend.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class UserService {
     // create
     public void createUser(UserRequestDto userRequestDto){
         // 각 요소의 존재 확인
-        if (userRequestDto.getLogin_id().equals("") || userRequestDto.getLogin_id() == null){
+        if (userRequestDto.getUsername().equals("") || userRequestDto.getUsername() == null){
             throw new IllegalArgumentException("아이디가 입력되지 않았습니다.");
         }
         if (userRequestDto.getPassword().equals("") || userRequestDto.getPassword() == null){
@@ -42,7 +43,7 @@ public class UserService {
             throw new IllegalArgumentException("스킬이 입력되지 않았습니다.");
         }
         // 아이디 중복 확인
-        List<User> userList = userRepository.findLoginIdDuplicateUsers(userRequestDto.getLogin_id());
+        List<User> userList = userRepository.findLoginIdDuplicateUsers(userRequestDto.getUsername());
         if (!userList.isEmpty()){
             throw new IllegalArgumentException("중복되는 아이디가 존재합니다.");
         }
@@ -60,6 +61,14 @@ public class UserService {
     }
 
     // update
+    public void updateUser(UserDetailsImpl userDetails, UserRequestDto userRequestDto){
+        if (userDetails == null){
+            throw new IllegalArgumentException("회원이 로그인되어 있지 않습니다.");
+        }
+        User user = userDetails.getUser();
+        user.update(userRequestDto);
+        userRepository.save(user);
+    }
 
     // delete
 }

@@ -9,10 +9,12 @@ import lombok.Setter;
 @Setter
 @Getter
 public class UserRequestDto {
-    private String login_id;
+    private String username;
     private String password;
     private String name;
     private Skill skill;
     private String introduce;
     private String image_url;
 }
+
+
