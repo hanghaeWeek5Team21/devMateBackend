@@ -4,7 +4,9 @@ import com.sparta.devmatebackend.dto.CommentPutRequestDto;
 import com.sparta.devmatebackend.dto.CommentRequestDto;
 import com.sparta.devmatebackend.dto.CommentResponseDto;
 import com.sparta.devmatebackend.models.Comment;
+import com.sparta.devmatebackend.models.User;
 import com.sparta.devmatebackend.repository.CommentRepository;
+import com.sparta.devmatebackend.repository.UserRepository;
 import com.sparta.devmatebackend.security.UserDetailsImpl;
 import com.sparta.devmatebackend.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +21,13 @@ import java.util.List;
 public class CommentController {
     private final CommentService commentService;
     private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
 
     @PostMapping("api/comment")
     public CommentResponseDto create(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody CommentRequestDto commentRequestDto) {
         CommentResponseDto respDto = new CommentResponseDto();
         try {
-            commentService.save(commentRequestDto, userDetails);
+            commentService.create(commentRequestDto, userDetails);
             respDto.setRes(true);
             respDto.setMsg("댓글이 작성되었습니다.");
         } catch (Exception e) {
@@ -64,7 +67,7 @@ public class CommentController {
 
     @GetMapping("api/comment")
     public List<Comment> getComment(@RequestParam(value = "user_id") Long user_id) {
-        return commentRepository.findByUserIdOrderByCreatedAtDesc(user_id);
+        User user = userRepository.getById(user_id);
+        return commentRepository.findAllByUserOrderByCreatedAtDesc(user);
     }
-
 }

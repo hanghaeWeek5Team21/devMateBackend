@@ -1,6 +1,8 @@
 package com.sparta.devmatebackend.models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sparta.devmatebackend.dto.CommentPutRequestDto;
 import com.sparta.devmatebackend.dto.CommentRequestDto;
 import lombok.Getter;
@@ -22,16 +24,13 @@ public class Comment extends Timestamped{
     @Column(nullable = false)
     private String contents;
 
-    @Column(nullable = false)
-    private Long user_id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @Column(nullable = false)
-    private Long author_id;
-
-    public Comment(CommentRequestDto requestDto){
-        this.contents = requestDto.getContents();
-        this.user_id = requestDto.getUser_id();
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id", nullable = false)
+    private User author;
 
     public void update(CommentPutRequestDto requestDto){
         this.contents = requestDto.getContents();

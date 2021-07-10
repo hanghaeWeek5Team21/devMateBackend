@@ -50,7 +50,7 @@ public class UserController {
         return resDto;
     }
 
-    // 회원수정  TODO : 로그인 구현되면 구현
+    // 회원수정
     @PatchMapping("api/user")
     public ResMesResultResponseDto updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestBody UserRequestDto userRequestDto){
         ResMesResultResponseDto resDto = new ResMesResultResponseDto();
@@ -69,8 +69,7 @@ public class UserController {
 
     // 회원 전체 조회
     @GetMapping("api/user")
-    public ResMesResultResponseDto getAllUser(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        System.out.println("userDetails = " + userDetails);
+    public ResMesResultResponseDto getAllUser(){
         ResMesResultResponseDto resDto = new ResMesResultResponseDto();
         try{
             List<User> allUser = userRepository.findAllByOrderByModifiedAtDesc();

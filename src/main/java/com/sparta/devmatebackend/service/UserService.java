@@ -4,23 +4,18 @@ import com.sparta.devmatebackend.dto.UserRequestDto;
 import com.sparta.devmatebackend.models.User;
 import com.sparta.devmatebackend.repository.UserRepository;
 import com.sparta.devmatebackend.security.UserDetailsImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     // create
     @Transactional
@@ -70,6 +65,7 @@ public class UserService {
         }
         User user = userDetails.getUser();
         user.update(userRequestDto);
+        user.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
         userRepository.save(user);
     }
 
