@@ -5,7 +5,7 @@ import com.sparta.devmatebackend.models.User;
 import com.sparta.devmatebackend.repository.UserRepository;
 import com.sparta.devmatebackend.security.UserDetailsImpl;
 import com.sparta.devmatebackend.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,15 +13,10 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
+@RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
     private final UserRepository userRepository;
-
-    @Autowired
-    public UserController(UserService userService, UserRepository userRepository) {
-        this.userService = userService;
-        this.userRepository = userRepository;
-    }
 
     // 아이디 중복 체그용
     @PostMapping(value = "api/user", params = "login_id")
@@ -90,10 +85,9 @@ public class UserController {
     public ResMesResultResponseDto getAllUser(@PathVariable Long id){
         ResMesResultResponseDto resDto = new ResMesResultResponseDto();
         try{
-            User allUser = userRepository.getById(id);
+            User user = userRepository.getById(id);
             resDto.setRes(true);
-            resDto.setResult(allUser);
-            System.out.println("allUser = " + allUser);
+            resDto.setResult(user);
             resDto.setMsg("단일 user 가 정상적으로 조회되었습니다.");
         }catch (Exception e){
             resDto.setRes(false);

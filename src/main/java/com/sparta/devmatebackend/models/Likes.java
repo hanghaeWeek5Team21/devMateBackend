@@ -1,24 +1,19 @@
 package com.sparta.devmatebackend.models;
 
-import com.sparta.devmatebackend.dto.CommentPutRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
-@Getter
 @Setter
+@Getter
 @Entity
 @NoArgsConstructor
-public class Comment extends Timestamped{
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Likes extends Timestamped{
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
-    private String contents;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -28,7 +23,8 @@ public class Comment extends Timestamped{
     @JoinColumn(name = "author_id", nullable = false)
     private User author;
 
-    public void update(CommentPutRequestDto requestDto){
-        this.contents = requestDto.getContents();
+    public Likes(User user, User author) {
+        this.user = user;
+        this.author = author;
     }
 }

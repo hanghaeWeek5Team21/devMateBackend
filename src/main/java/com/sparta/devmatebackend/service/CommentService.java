@@ -33,19 +33,33 @@ public class CommentService {
 
     // update
     @Transactional
-    public Long update(Long id, CommentPutRequestDto commentPutRequestDto){
+    public Long update(Long id, CommentPutRequestDto commentPutRequestDto, UserDetailsImpl userDetails) throws IllegalAccessException {
+        if (userDetails == null){
+            throw new IllegalArgumentException("로그인되어 있지 않습니다.");
+        }
         Comment comment = commentRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 댓글입니다.")
         );
+        if (!comment.getAuthor().getId().equals(userDetails.getUser().getId())){
+            throw new IllegalAccessException("로그인된 유저가 작성한 댓글이 아닙니다.");
+        }
         comment.update(commentPutRequestDto);
         return comment.getId();
     }
+
     //delete
     @Transactional
-    public void delete(Long id){
+    public void delete(Long id, UserDetailsImpl userDetails) throws IllegalAccessException {
+        if (userDetails == null){
+            throw new IllegalArgumentException("로그인되어 있지 않습니다.");
+        }
         Comment comment = commentRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 댓글입니다.")
         );
+        if (!comment.getAuthor().getId().equals(userDetails.getUser().getId())){
+            throw new IllegalAccessException("로그인된 유저가 작성한 댓글이 아닙니다.");
+        }
+
         commentRepository.delete(comment);
     }
 }

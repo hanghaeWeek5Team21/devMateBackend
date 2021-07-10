@@ -33,34 +33,37 @@ public class CommentController {
         } catch (Exception e) {
             respDto.setRes(false);
             respDto.setMsg(e.getMessage());
+            System.out.println("e.getMessage() = " + e.getMessage());
         }
         return respDto;
     }
 
     @DeleteMapping("api/comment/{id}")
-    public CommentResponseDto delete(@PathVariable Long id) {
+    public CommentResponseDto delete(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long id) {
         CommentResponseDto respDto = new CommentResponseDto();
         try {
-            commentService.delete(id);
+            commentService.delete(id, userDetails);
             respDto.setRes(true);
             respDto.setMsg("댓글이 삭제되었습니다.");
         } catch (Exception e) {
             respDto.setRes(false);
-            respDto.setMsg("댓글 삭제에 실패하였습니다.");
+            respDto.setMsg(e.getMessage());
+            System.out.println("e.getMessage() = " + e.getMessage());
         }
         return respDto;
     }
 
-    @PutMapping("api/comment/{id}")
-    public CommentResponseDto update(@PathVariable Long id, @RequestBody CommentPutRequestDto requestDto) {
+    @PatchMapping("api/comment/{id}")
+    public CommentResponseDto update(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody CommentPutRequestDto requestDto) {
         CommentResponseDto respDto = new CommentResponseDto();
         try {
-            commentService.update(id, requestDto);
+            commentService.update(id, requestDto, userDetails);
             respDto.setRes(true);
             respDto.setMsg("댓글이 수정되었습니다.");
         } catch (Exception e) {
             respDto.setRes(false);
-            respDto.setMsg("댓글 수정에 실패하였습니다.");
+            respDto.setMsg(e.getMessage());
+            System.out.println("e.getMessage() = " + e.getMessage());
         }
         return respDto;
     }

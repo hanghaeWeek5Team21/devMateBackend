@@ -40,7 +40,7 @@ public class UserService {
             throw new IllegalArgumentException("스킬이 입력되지 않았습니다.");
         }
         // 아이디 중복 확인
-        List<User> userList = userRepository.findLoginIdDuplicateUsers(userRequestDto.getUsername());
+        List<User> userList = userRepository.findAllByUsername(userRequestDto.getUsername());
         if (!userList.isEmpty()){
             throw new IllegalArgumentException("중복되는 아이디가 존재합니다.");
         }
@@ -53,7 +53,7 @@ public class UserService {
     // read
     public boolean isLoginIdDuplicate(String loginId){
         // 아이디 중복 확인에 따른 bool
-        List<User> userList = userRepository.findLoginIdDuplicateUsers(loginId);
+        List<User> userList = userRepository.findAllByUsername(loginId);
         return !userList.isEmpty();
     }
 
