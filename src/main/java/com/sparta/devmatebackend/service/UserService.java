@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -22,6 +23,7 @@ public class UserService {
     }
 
     // create
+    @Transactional
     public void createUser(UserRequestDto userRequestDto){
         // 각 요소의 존재 확인
         if (userRequestDto.getUsername().equals("") || userRequestDto.getUsername() == null){
@@ -61,6 +63,7 @@ public class UserService {
     }
 
     // update
+    @Transactional
     public void updateUser(UserDetailsImpl userDetails, UserRequestDto userRequestDto){
         if (userDetails == null){
             throw new IllegalArgumentException("회원이 로그인되어 있지 않습니다.");

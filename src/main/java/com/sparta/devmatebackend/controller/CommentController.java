@@ -5,12 +5,15 @@ import com.sparta.devmatebackend.dto.CommentRequestDto;
 import com.sparta.devmatebackend.dto.CommentResponseDto;
 import com.sparta.devmatebackend.models.Comment;
 import com.sparta.devmatebackend.repository.CommentRepository;
+import com.sparta.devmatebackend.security.UserDetailsImpl;
 import com.sparta.devmatebackend.service.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequiredArgsConstructor
 public class CommentController {
@@ -18,15 +21,15 @@ public class CommentController {
     private final CommentRepository commentRepository;
 
     @PostMapping("api/comment")
-    public CommentResponseDto create(@RequestBody CommentRequestDto commentRequestDto) {
+    public CommentResponseDto create(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody CommentRequestDto commentRequestDto) {
         CommentResponseDto respDto = new CommentResponseDto();
         try {
-            commentService.save(commentRequestDto);
+            commentService.save(commentRequestDto, userDetails);
             respDto.setRes(true);
             respDto.setMsg("댓글이 작성되었습니다.");
         } catch (Exception e) {
             respDto.setRes(false);
-            respDto.setMsg("댓글 작성에 실패하였습니다.");
+            respDto.setMsg(e.getMessage());
         }
         return respDto;
     }
@@ -46,7 +49,7 @@ public class CommentController {
     }
 
     @PutMapping("api/comment/{id}")
-    public CommentResponseDto update(@PathVariable Long id, CommentPutRequestDto requestDto) {
+    public CommentResponseDto update(@PathVariable Long id, @RequestBody CommentPutRequestDto requestDto) {
         CommentResponseDto respDto = new CommentResponseDto();
         try {
             commentService.update(id, requestDto);

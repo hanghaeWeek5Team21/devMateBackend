@@ -4,6 +4,7 @@ import com.sparta.devmatebackend.dto.CommentPutRequestDto;
 import com.sparta.devmatebackend.dto.CommentRequestDto;
 import com.sparta.devmatebackend.models.Comment;
 import com.sparta.devmatebackend.repository.CommentRepository;
+import com.sparta.devmatebackend.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +33,12 @@ public class CommentService {
     }
 
     @Transactional
-    public void save(CommentRequestDto requestDto){
+    public void save(CommentRequestDto requestDto, UserDetailsImpl userDetails){
+        if (userDetails == null){
+            throw new IllegalArgumentException("로그인되어 있지 않습니다.");
+        }
         Comment comment = new Comment(requestDto);
+        comment.setAuthor_id(userDetails.getUser().getId());
         commentRepository.save(comment);
     }
 }

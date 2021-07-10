@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 public class UserController {
     private final UserService userService;
@@ -34,7 +35,7 @@ public class UserController {
 
     // 회원가입
     @PostMapping("api/user")
-    public ResMesResultResponseDto createUser(UserRequestDto userRequestDto){
+    public ResMesResultResponseDto createUser(@RequestBody UserRequestDto userRequestDto){
         ResMesResultResponseDto resDto = new ResMesResultResponseDto();
         resDto.setResult(null);
         try{
@@ -51,7 +52,7 @@ public class UserController {
 
     // 회원수정  TODO : 로그인 구현되면 구현
     @PatchMapping("api/user")
-    public ResMesResultResponseDto updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails, UserRequestDto userRequestDto){
+    public ResMesResultResponseDto updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestBody UserRequestDto userRequestDto){
         ResMesResultResponseDto resDto = new ResMesResultResponseDto();
         resDto.setResult(null);
         try{
