@@ -35,12 +35,12 @@ public class User extends Timestamped{
     @JsonIgnore
     private List<Comment> createdComments = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "user")
-//    private List<Like> likes = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "author")
-//    @JsonIgnore
-//    private List<Like> createdLikes = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<Likes> likes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "author")
+    @JsonIgnore
+    private List<Likes> createdLikes = new ArrayList<>();
 
     public User(String username, String password, String name, Skill skill, String introduce, String imageUrl) {
         this.username = username;

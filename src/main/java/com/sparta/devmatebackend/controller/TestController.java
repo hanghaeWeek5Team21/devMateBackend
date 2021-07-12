@@ -6,7 +6,7 @@ import com.sparta.devmatebackend.security.UserDetailsImpl;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
+@CrossOrigin(origins = {"http://www.adiy.info"}, allowCredentials = "true")
 @RestController
 public class TestController {
 

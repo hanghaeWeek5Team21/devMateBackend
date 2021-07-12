@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -34,13 +36,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.headers().frameOptions().disable();
-        http.cors().configurationSource(request -> {
-            var cors = new CorsConfiguration();
-            cors.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
-            cors.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE", "OPTIONS"));
-            cors.setAllowedHeaders(Collections.singletonList("*"));
-            return cors;
-        }).and().authorizeRequests()
+
+        // TODO : 깃헙 readme 에 남기고 삭제하기 (security cors 설정법)
+//        http.cors().configurationSource(request -> {
+//                var cors = new CorsConfiguration();
+//                cors.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost", "http://www.adiy.info"));
+//                cors.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+//                cors.setAllowedHeaders(Collections.singletonList("*"));
+//                cors.setAllowCredentials(true);
+//                return cors;
+//        });
+
+        http.authorizeRequests()
                 // image 폴더를 login 없이 허용
                 .antMatchers("/images/**").permitAll()
                 // css 폴더를 login 없이 허용
@@ -54,8 +61,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/user/login")
                 .loginProcessingUrl("/api/user/login")
-                .defaultSuccessUrl("http://localhost:3000/")
-                .failureUrl("/user/login/error")
+                .defaultSuccessUrl("http://www.adiy.info")
+                .failureUrl("http://www.adiy.info/user/login/error")
                 .permitAll()
                 .and()
                 .logout()
@@ -64,6 +71,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling()
                 .accessDeniedPage("/user/forbidden");
-
     }
 }

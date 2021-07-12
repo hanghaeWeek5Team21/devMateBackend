@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin(origins = {"http://www.adiy.info"}, allowCredentials = "true")
 @RestController
 @RequiredArgsConstructor
 public class CommentController {

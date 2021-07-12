@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
+@CrossOrigin(origins = {"http://www.adiy.info"}, allowCredentials = "true")
 @RestController
 @RequiredArgsConstructor
 public class LikesController {
