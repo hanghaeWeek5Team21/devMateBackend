@@ -1,6 +1,8 @@
 package com.sparta.devmatebackend.security;
 
+import com.sparta.devmatebackend.config.DomainConfig;
 import lombok.var;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,17 +12,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity // 스프링 Security 지원을 가능하게 함
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    private DomainConfig domainConfig;
+
     @Bean
     public BCryptPasswordEncoder encodePassword() {
         return new BCryptPasswordEncoder();
@@ -36,12 +38,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.headers().frameOptions().disable();
-
+        
+        // @Depricated
         // TODO : 깃헙 readme 에 남기고 삭제하기 (security cors 설정법)
 //        http.cors().configurationSource(request -> {
 //                var cors = new CorsConfiguration();
-//                cors.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost", "http://www.adiy.info"));
-//                cors.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+//                cors.setAllowedOrigins(Arrays.asList(domainConfig.getFullName()));
+//                cors.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "PATCH", "OPTIONS"));
 //                cors.setAllowedHeaders(Collections.singletonList("*"));
 //                cors.setAllowCredentials(true);
 //                return cors;
@@ -59,14 +62,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/user/login")
+                .loginPage(domainConfig.getFullName()+ "/user/login")
                 .loginProcessingUrl("/api/user/login")
-                .defaultSuccessUrl("http://www.adiy.info")
-                .failureUrl("http://www.adiy.info/user/login/error")
+                .defaultSuccessUrl(domainConfig.getFullName())
+                .failureUrl(domainConfig.getFullName() + "/user/login/error")
                 .permitAll()
                 .and()
                 .logout()
-                .logoutUrl("/user/logout")
+                .logoutUrl(domainConfig.getFullName()+"/user/logout")
                 .permitAll()
                 .and()
                 .exceptionHandling()

@@ -6,12 +6,13 @@ import com.sparta.devmatebackend.repository.UserRepository;
 import com.sparta.devmatebackend.security.UserDetailsImpl;
 import com.sparta.devmatebackend.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = {"http://www.adiy.info"}, allowCredentials = "true")
+@CrossOrigin(origins = {"${config.domain.full-name}"}, allowCredentials = "true")
 @RestController
 @RequiredArgsConstructor
 public class UserController {

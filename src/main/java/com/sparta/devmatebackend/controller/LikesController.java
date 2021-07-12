@@ -1,6 +1,5 @@
 package com.sparta.devmatebackend.controller;
 
-import com.sparta.devmatebackend.dto.CommentResponseDto;
 import com.sparta.devmatebackend.dto.LikePutRequestDto;
 import com.sparta.devmatebackend.dto.ResMesResultResponseDto;
 import com.sparta.devmatebackend.repository.LikesRepository;
@@ -10,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = {"http://www.adiy.info"}, allowCredentials = "true")
+@CrossOrigin(origins = {"${config.domain.full-name}"}, allowCredentials = "true")
 @RestController
 @RequiredArgsConstructor
 public class LikesController {
