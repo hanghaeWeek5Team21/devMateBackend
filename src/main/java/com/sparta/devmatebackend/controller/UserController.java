@@ -6,18 +6,26 @@ import com.sparta.devmatebackend.repository.UserRepository;
 import com.sparta.devmatebackend.security.UserDetailsImpl;
 import com.sparta.devmatebackend.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @CrossOrigin(origins = {"${config.domain.full-name}"}, allowCredentials = "true")
 @RestController
 @RequiredArgsConstructor
 public class UserController {
+
     private final UserService userService;
     private final UserRepository userRepository;
+
+    // 아이디 로그인 체그용
+    @GetMapping(value = "api/user/id")
+    public ResMesResultResponseDto getLoginId(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        if (userDetails == null) return new ResMesResultResponseDto(false, "로그인되어 있지 않습니다.", null);
+        return new ResMesResultResponseDto(true, "아이디 인덱스입니다.", userDetails.getUser().getId());
+    }
 
     // 아이디 중복 체그용
     @PostMapping(value = "api/user", params = "login_id")
@@ -49,6 +57,7 @@ public class UserController {
     // 회원수정
     @PatchMapping("api/user")
     public ResMesResultResponseDto updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestBody UserRequestDto userRequestDto){
+        System.out.println("userDetails = " + userDetails);
         ResMesResultResponseDto resDto = new ResMesResultResponseDto();
         resDto.setResult(null);
         try{
@@ -83,7 +92,7 @@ public class UserController {
 
     // 회원 단일 조회
     @GetMapping("api/user/{id}")
-    public ResMesResultResponseDto getAllUser(@PathVariable Long id){
+    public ResMesResultResponseDto getSingleUser(@PathVariable Long id){
         ResMesResultResponseDto resDto = new ResMesResultResponseDto();
         try{
             User user = userRepository.getById(id);

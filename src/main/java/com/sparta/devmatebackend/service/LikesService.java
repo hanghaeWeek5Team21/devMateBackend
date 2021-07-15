@@ -26,6 +26,8 @@ public class LikesService {
         }
         User user = userRepository.getById(likePutRequestDto.getUser_id());
         User author = userDetails.getUser();
+        System.out.println("author = " + author.getId());
+        System.out.println("user = " + user.getId());
         likesRepository.findByAuthorAndUser(author, user)
             .ifPresent(x -> {throw new RuntimeException("같은 회원을 2번 좋아요 할 수 없습니다.");});
 

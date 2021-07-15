@@ -1,5 +1,6 @@
 package com.sparta.devmatebackend.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,8 @@ import java.io.IOException;
 //@Component
 //@Order(Ordered.HIGHEST_PRECEDENCE)
 public class CORSFilter  { // implements Filter
+//    @Autowired
+//    private DomainConfig domainConfig;
 //
 //    @Override
 //    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
@@ -22,7 +25,7 @@ public class CORSFilter  { // implements Filter
 //
 //        // header 를 필요에 맞게 변경할 수 있습니다.
 //        response.setHeader("Access-Control-Allow-Credentials", "true");
-//        response.setHeader("Access-Control-Allow-Origin", "http://www.adiy.info");
+//        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
 //        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, GET, DELETE");
 //        response.setHeader("Access-Control-Max-Age", "3600");
 //        response.setHeader("Access-Control-Allow-Headers", "content-type");

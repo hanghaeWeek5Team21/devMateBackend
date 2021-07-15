@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 public class LikesController {
+
     private final LikesRepository likesRepository;
     private final LikesService likesService;
 
