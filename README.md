@@ -124,17 +124,31 @@
       <summary>데이터베이스</summary>
         <br>
 
-        * wanderer
+        * dev_mate
             * user
-                * email = str
-                * nickname = str
-                * password = binary
-            * place
-                * placeName = str
-                * imageURL = str
-                * location = str
-                * likedUser = arr[email = str]
-                * createdUser = str
+                * id = long
+                * username = string
+                * password = string
+                * name = string
+                * skill = enum(string)
+                * introduce = string
+                * image_url = sring
+                * created_at = localDateTime
+                * modified_at = localDateTime
+            * comment
+                * id = long
+                * user_id = long
+                * author_id = long
+                * content = string
+                * created_at = localDateTime
+                * modified_at = localDateTime
+            * likes
+                * id = long
+                * user_id = long
+                * author_id = long
+                * created_at = localDateTime
+                * modified_at = localDateTime
+    
     </details>
     <br>
 
