@@ -183,8 +183,8 @@
       
       예를 들어 댓글을 받는 경우   
       메인 페이지는   
-      array[user] -> array[comment] -X> user   
-      모든 유저들의 array -> 각각 유저들에게 작성된 comment array -X> 각각 comment 를 작성한 user    
+      array[user] -> array[comment] -X> user    
+      모든 유저들의 array -> 각각 유저들에게 작성된 comment array -X> 각각 comment 를 작성한 user     
       위에서 표현된 -X> 는 연결을 끊는다는 의미로   
       @jsonIgnore, @jsonIdentityInfo, @ jsonManagedReference 중 아무것이나 사용하셔도 됩니다.   
       
@@ -239,9 +239,9 @@
       1. post 테이블을 만든다.
       2. jpql 을 직접 작성한다.
         
-      입니다. 이 방법들은 전혀 전문가의 입에서 나오는 소리가 아닌,   
+      이 방법들은 전혀 전문가의 입에서 나오는 소리가 아닌,    
       초보자의 고찰일 뿐입니다. 이것을 정답으로는 생각해주지 마세요.      
-      방법은 이것보다 훨씬 많을 것입니다.   
+      방법은 이것보다 훨씬 많을 것입니다.    
       
       우선 a는   
       
