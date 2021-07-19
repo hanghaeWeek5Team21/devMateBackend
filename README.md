@@ -285,6 +285,163 @@
       <summary>CORS</summary>  
       <br>
 
+      Cors 는 시행착오를 많이 거쳤습니다.      
+      stack overflow 에는 cors 를 해결하기 위한 수많은 spring code 들이 존재하지만 그 중에서 가장 
+      단순하고 가장 효과적인 코드를 찾아야 했습니다.   
+      
+      찾고 사용했던 코드들   
+      CORS FILTER   
+      ```java
+      // TODO : 해당 클래스의 내용을 readme 에 정리하고 삭제하기
+      @Deprecated
+      @Component
+      @Order(Ordered.HIGHEST_PRECEDENCE)
+      public class CORSFilter implements Filter { 
+          @Autowired
+          private DomainConfig domainConfig;
+      
+          @Override
+          public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+              HttpServletResponse response = (HttpServletResponse) res;
+              HttpServletRequest request = (HttpServletRequest) req;
+      
+              // header 를 필요에 맞게 변경할 수 있습니다.
+              response.setHeader("Access-Control-Allow-Credentials", "true");
+              response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+              response.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, GET, DELETE");
+              response.setHeader("Access-Control-Max-Age", "3600");
+              response.setHeader("Access-Control-Allow-Headers", "content-type");
+      
+              if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+                  response.setStatus(HttpServletResponse.SC_OK);
+              } else {
+                  chain.doFilter(req, res);
+              }
+          }
+      
+          @Override
+          public void init(FilterConfig filterConfig) {
+          }
+      
+          @Override
+          public void destroy() {
+          }
+      }
+      ```   
+      위 코드는 강제적으로 controller 의 모든 header 에 cors 허용을 붙입니다.   
+      
+      이 코드베이스는 별로 추천드리지 않습니다.   
+      우선 저기 위의 @Order(Ordered.HIGHEST_PRECEDENCE) 가 보이실 겁니다.   
+      이는 강제성을 가지는 것과 같은 효과가 있습니다.   
+      @Order(Ordered.HIGHEST_PRECEDENCE) 없이는 작동하지 않습니다.   
+      그럼으로 스프링의 코드베이스를 조작하는 것과 같은 의미를 가집니다.   
+      
+      Spring 은 웹 api 를 만들기 위한 template 입니다.    
+      Template 은 사용하는 것이지 뜯어 고치는 것이 아닙니다.    
+      
+      이러한 방법을 사용하지 말고 spring 에서 의도한 방법을 찾아보는 것이 좋을 것 같았습니다.   
+
+      `@CrossOrigin(origins = {"devmate.org"}, allowCredentials = "true")`   
+      다음과 같은 @CrossOrigins 를 controller class 앞에 사용해주신다면 훨씬 더 깔끔하고 
+      스프링에서 의도된 도구를 사용한다고 생각되어 @CrossOrigin 으로 변경하였습니다.   
+      
+      다만 security 는 또 다른 문제였습니다.   
+      ```java
+      @Configuration
+      @EnableWebSecurity // 스프링 Security 지원을 가능하게 함
+      @EnableGlobalMethodSecurity(securedEnabled = true)
+      public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+      @Autowired
+      private DomainConfig domainConfig;
+      
+          @Bean
+          public BCryptPasswordEncoder encodePassword() {
+              return new BCryptPasswordEncoder();
+          }
+      
+          @Bean
+          @Override
+          public AuthenticationManager authenticationManagerBean() throws Exception {
+              return super.authenticationManagerBean();
+          }
+      
+          @Override
+          protected void configure(HttpSecurity http) throws Exception {
+              http.csrf().disable();
+              http.headers().frameOptions().disable();
+              
+              @Depricated
+              // TODO : 깃헙 readme 에 남기고 삭제하기 (security cors 설정법)
+                http.cors().configurationSource(request -> {
+                        var cors = new CorsConfiguration();
+                        cors.setAllowedOrigins(Arrays.asList(domainConfig.getFullName()));
+                        cors.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "PATCH", "OPTIONS"));
+                        cors.setAllowedHeaders(Collections.singletonList("*"));
+                        cors.setAllowCredentials(true);
+                        return cors;
+                });
+      
+              http.authorizeRequests()
+                      // image 폴더를 login 없이 허용
+                      .antMatchers("/images/**").permitAll()
+                      // css 폴더를 login 없이 허용
+                      .antMatchers("/css/**").permitAll()
+                      .antMatchers("/user/**").permitAll()
+                      .antMatchers("/h2-console/**").permitAll()
+                      .antMatchers("/api/**").permitAll() // api테스트를 위해 열어두었습니다 배포시 주석처리해주세요
+                      // 그 외 모든 요청은 인증과정 필요
+                      .anyRequest().authenticated()
+                      .and()
+                      .formLogin()
+                      //.loginPage(domainConfig.getFullName()+ "/login")
+                      .loginProcessingUrl("/api/user/login")
+                      // https://stackoverflow.com/questions/60826884/jwt-served-via-httponly-cookie-with-someway-to-find-out-is-logged-in
+                      .defaultSuccessUrl(domainConfig.getFullName()+"/")
+                      .failureUrl(domainConfig.getFullName() + "/login/?res=false")
+                      .permitAll()
+                      .and()
+                      .logout()
+                      .logoutUrl(domainConfig.getFullName()+"/redirect/logout")
+                      .permitAll()
+                      .and()
+                      .exceptionHandling()
+                      .accessDeniedPage("/user/forbidden");
+          }
+      }
+      ```
+      
+      위 방법에서 `@Depricated` 된 `http.cors().configurationSource()` 이후의 cors 설정 부분이 security 의 요청들에 cors header
+      를 달아주는 역활을 합니다.   
+
+      `http.authorizeRequests()` 같이 `http.cors()` 를 만든 것으로 보아 spring 에서 의도한 방법에도 맞고 잘 되는 것 같이 보였습니다.      
+      
+      하지만 한가지 큰 문제점이 얼마 지나지 않아 나타났습니다.   
+      
+      Security 는 다른 도메인에 쿠키를 저장할 수 없습니다.
+      
+      이게 무슨 예기냐 하면   
+      localhost:8080 에서    
+      localhost:3000 에 jsessionid 를 지정할 수 없습니다.   
+      
+      자세한 [stack overflow 링크](https://stackoverflow.com/questions/6761415/how-to-set-a-cookie-for-another-domain) 는 여기에 올려드립니다.   
+      그래서 제시된 해결책들을 읽던 와중에    
+      
+      a.devmate.org 에서 b.devmae.org 의 쿠키를 변동할 수 있다는 예기가 있었습니다.    
+      spring 의 경우 이를 해결하는 방법은 application.properties 에서   
+      `server.servlet.session.cookie.domain=devmate.org` 를 추가하는 것입니다.      
+      servlet 은 spring 의 내부에서 사용되는 프레임워크입니다.   
+      이 코드를 추가하시면 이제 security 에서 subDomian 에 쿠키를 변동할 수 있게 됩니다.   
+      
+      security 는 쿠키를 변동할 때마다 `Set-Cookie: JSESSIONID=value;` 를 주는데,   
+      여기에  `domain=devmate.org` 가 붙으면 subdomain 에서도 접근이 가능한 쿠키로 변동됩니다.   
+      header 가 `Set-Cookie: JSESSIONID=value; domain=devmate.org` 로 변경되는 겁니다.    
+      이 역활을 `server.servlet.session.cookie.domain=devmate.org` 가 해주는 것이구요.   
+      
+      여기까지 다 끝난 이후에는 route53 를 이용하여 api.devmate.org 와 www.devmate.org 를 지정해주시면 됩니다.   
+      
+      이렇게 되면 위의 `http.cors()` 지정 또한 필요가 없어집니다.   
+      <br>
+      
       </details>
       <br>
 
