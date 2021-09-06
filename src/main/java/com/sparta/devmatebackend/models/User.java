@@ -2,18 +2,17 @@ package com.sparta.devmatebackend.models;
 
 import com.fasterxml.jackson.annotation.*;
 import com.sparta.devmatebackend.dto.UserRequestDto;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-@NoArgsConstructor
 public class User extends Timestamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,28 +42,20 @@ public class User extends Timestamped{
     @JsonIgnore
     private List<Likes> createdLikes = new ArrayList<>();
 
-    public User(String username, String password, String name, Skill skill, String introduce, String imageUrl) {
-        this.username = username;
-        this.password = password;
-        this.name = name;
-        this.skill = skill;
-        this.introduce = introduce;
-        this.imageUrl = imageUrl;
-    }
-
-    public User(UserRequestDto userRequestDto){
+    public User(UserRequestDto userRequestDto, String password){
         this.username = userRequestDto.getUsername();
-        this.password = userRequestDto.getPassword();
         this.name = userRequestDto.getName();
         this.skill = userRequestDto.getSkill();
         this.introduce = userRequestDto.getIntroduce();
         this.imageUrl = userRequestDto.getImage_url();
+        this.password = password;
     }
 
-    public void update(UserRequestDto userRequestDto){
+    public void update(UserRequestDto userRequestDto, String password){
         this.name = userRequestDto.getName();
         this.skill = userRequestDto.getSkill();
         this.introduce = userRequestDto.getIntroduce();
         this.imageUrl = userRequestDto.getImage_url();
+        this.password = password;
     }
 }

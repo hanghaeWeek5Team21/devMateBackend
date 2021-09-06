@@ -45,8 +45,7 @@ public class UserService {
             throw new IllegalArgumentException("중복되는 아이디가 존재합니다.");
         }
         // 회원 저장
-        User user = new User(userRequestDto);
-        user.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
+        User user = new User(userRequestDto, passwordEncoder.encode(userRequestDto.getPassword()));
         userRepository.save(user);
     }
 
@@ -64,8 +63,7 @@ public class UserService {
             throw new IllegalArgumentException("회원이 로그인되어 있지 않습니다.");
         }
         User user = userDetails.getUser();
-        user.update(userRequestDto);
-        user.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
+        user.update(userRequestDto, passwordEncoder.encode(userRequestDto.getPassword()));
         userRepository.save(user);
     }
 
