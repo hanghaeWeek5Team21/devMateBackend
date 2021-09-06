@@ -7,9 +7,12 @@ import com.sparta.devmatebackend.repository.UserRepository;
 import com.sparta.devmatebackend.security.UserDetailsImpl;
 import com.sparta.devmatebackend.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @CrossOrigin(origins = {"${config.domain.full-name}"}, allowCredentials = "true")
@@ -22,70 +25,44 @@ public class UserController {
 
     // 아이디 로그인 체그용
     @GetMapping(value = "api/user/id")
-    public ResMesResultResponseDto getLoginId(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        if (userDetails == null) return new ResMesResultResponseDto(false, "로그인되어 있지 않습니다.", null);
-        return new ResMesResultResponseDto(true, "아이디 인덱스입니다.", userDetails.getUser().getId());
+    public ResponseEntity<ResMesResultResponseDto> getLoginId(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        if (userDetails == null) return ResponseEntity.ok().body(new ResMesResultResponseDto(false, "로그인되어 있지 않습니다.", null));
+        return ResponseEntity.ok().body(new ResMesResultResponseDto(true, "아이디 인덱스입니다.", userDetails.getUser().getId()));
     }
 
     // 아이디 중복 체그용
     @PostMapping(value = "api/user", params = "login_id")
-    public ResMesResultResponseDto checkLoginIdDuplicate(@RequestParam(name = "login_id") String loginId){
-        boolean isDuplicate = userService.isLoginIdDuplicate(loginId);
-        String msg;
-        if (isDuplicate) msg = "중복되는 아이디가 있습니다.";
-        else msg = "중복되는 아이디가 없습니다.";
-        return new ResMesResultResponseDto(isDuplicate, msg, null);
+    public ResponseEntity<ResMesResultResponseDto> checkLoginIdDuplicate(@RequestParam(name = "login_id") String loginId){
+        if (userService.isLoginIdDuplicate(loginId)) return ResponseEntity.ok().body(new ResMesResultResponseDto(true, "중복되는 아이디가 있습니다.", null));
+        return ResponseEntity.ok().body(new ResMesResultResponseDto(false, "중복되는 아이디가 없습니다.", null));
     }
 
     // 회원가입
     @PostMapping("api/user")
-    public CommentResponseDto createUser(@RequestBody UserRequestDto userRequestDto){
-        CommentResponseDto commentResponseDto;
-        try{
-            userService.createUser(userRequestDto);
-            commentResponseDto = new CommentResponseDto(true, "회원가입이 완료되었습니다.");
-        }catch (Exception e){
-            commentResponseDto = new CommentResponseDto(false, e.getMessage());
-        }
-        return commentResponseDto;
+    public ResponseEntity<CommentResponseDto> createUser(@RequestBody UserRequestDto userRequestDto){
+        userService.createUser(userRequestDto);
+        URI currentRequest = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
+        return ResponseEntity.created(currentRequest).body(new CommentResponseDto(true, "회원가입이 완료되었습니다."));
     }
 
     // 회원수정
     @PatchMapping("api/user")
-    public CommentResponseDto updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestBody UserRequestDto userRequestDto){
-        CommentResponseDto commentResponseDto;
-        try{
-            userService.updateUser(userDetails, userRequestDto);
-            commentResponseDto = new CommentResponseDto(true, "유저가 정상적으로 수정되었습니다.");
-        }catch (Exception e){
-            commentResponseDto = new CommentResponseDto(false, e.getMessage());
-        }
-        return commentResponseDto;
+    public ResponseEntity<CommentResponseDto> updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestBody UserRequestDto userRequestDto){
+        userService.updateUser(userDetails, userRequestDto);
+        return ResponseEntity.ok().body(new CommentResponseDto(true, "유저가 정상적으로 수정되었습니다."));
     }
 
     // 회원 전체 조회
     @GetMapping("api/user")
-    public ResMesResultResponseDto getAllUser(){
-        ResMesResultResponseDto resMesResultResponseDto;
-        try{
-            List<User> allUser = userRepository.findAllByOrderByModifiedAtDesc();
-            resMesResultResponseDto = new ResMesResultResponseDto(true,"모든 user 가 정상적으로 조회되었습니다.", allUser);
-        }catch (Exception e){
-            resMesResultResponseDto = new ResMesResultResponseDto(false, e.getMessage(), null);
-        }
-        return resMesResultResponseDto;
+    public ResponseEntity<ResMesResultResponseDto> getAllUser(){
+        List<User> allUser = userRepository.findAllByOrderByModifiedAtDesc();
+        return ResponseEntity.ok().body(new ResMesResultResponseDto(true,"모든 user 가 정상적으로 조회되었습니다.", allUser));
     }
 
     // 회원 단일 조회
     @GetMapping("api/user/{id}")
-    public ResMesResultResponseDto getSingleUser(@PathVariable Long id){
-        ResMesResultResponseDto resMesResultResponseDto;
-        try{
-            User user = userRepository.getById(id);
-            resMesResultResponseDto = new ResMesResultResponseDto(true,"단일 user 가 정상적으로 조회되었습니다.", user);
-        }catch (Exception e){
-            resMesResultResponseDto = new ResMesResultResponseDto(false, e.getMessage(), null);
-        }
-        return resMesResultResponseDto;
+    public ResponseEntity<ResMesResultResponseDto> getSingleUser(@PathVariable Long id){
+        User user = userRepository.getById(id);
+        return ResponseEntity.ok().body(new ResMesResultResponseDto(true,"단일 user 가 정상적으로 조회되었습니다.", user));
     }
 }
