@@ -23,10 +23,11 @@ public class CommentService {
         if (userDetails == null){
             throw new IllegalArgumentException("로그인되어 있지 않습니다.");
         }
-        Comment comment = new Comment();
-        comment.setUser(userRepository.getById(requestDto.getUser_id()));
-        comment.setContents(requestDto.getContents());
-        comment.setAuthor(userDetails.getUser());
+        Comment comment = new Comment(
+                requestDto.getContents(),
+                userRepository.getById(requestDto.getUser_id()),
+                userDetails.getUser()
+        );
         commentRepository.save(comment);
     }
     // read
