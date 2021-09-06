@@ -34,30 +34,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.headers().frameOptions().disable();
 
+        //권한
         http.authorizeRequests()
-                // image 폴더를 login 없이 허용
-                .antMatchers("/images/**").permitAll()
-                // css 폴더를 login 없이 허용
-                .antMatchers("/css/**").permitAll()
-                .antMatchers("/user/**").permitAll()
-                .antMatchers("/h2-console/**").permitAll()
-                .antMatchers("/api/**").permitAll() // api테스트를 위해 열어두었습니다 배포시 주석처리해주세요
-                // 그 외 모든 요청은 인증과정 필요
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                //.loginPage(domainConfig.getFullName()+ "/login")
+                .antMatchers("/images/**", "/css/**", "/user/**", "/h2-console/**", "/api/**").permitAll()
+                .anyRequest().authenticated();
+
+        //로그인
+        http.formLogin()
                 .loginProcessingUrl("/api/user/login")
-                // https://stackoverflow.com/questions/60826884/jwt-served-via-httponly-cookie-with-someway-to-find-out-is-logged-in
                 .defaultSuccessUrl(domainConfig.getFullName()+"/")
-                .failureUrl(domainConfig.getFullName() + "/login/?res=false")
-                .permitAll()
-                .and()
-                .logout()
-                .logoutUrl(domainConfig.getFullName()+"/redirect/logout")
-                .permitAll()
-                .and()
-                .exceptionHandling()
+                .failureUrl(domainConfig.getFullName() + "/login/?res=false");
+
+        //로그아웃
+        http.logout()
+                .logoutUrl(domainConfig.getFullName()+"/redirect/logout");
+
+        //권한이 없는 경우
+        http.exceptionHandling()
                 .accessDeniedPage("/user/forbidden");
     }
 }
