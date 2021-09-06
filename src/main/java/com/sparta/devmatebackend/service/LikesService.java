@@ -1,7 +1,6 @@
 package com.sparta.devmatebackend.service;
 
 import com.sparta.devmatebackend.dto.LikePutRequestDto;
-import com.sparta.devmatebackend.models.Comment;
 import com.sparta.devmatebackend.models.Likes;
 import com.sparta.devmatebackend.models.User;
 import com.sparta.devmatebackend.repository.LikesRepository;
@@ -11,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service

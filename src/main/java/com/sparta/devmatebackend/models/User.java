@@ -2,7 +2,6 @@ package com.sparta.devmatebackend.models;
 
 import com.fasterxml.jackson.annotation.*;
 import com.sparta.devmatebackend.dto.UserRequestDto;
-import com.sparta.devmatebackend.view.View;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,10 +14,6 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor
-//@JsonIdentityInfo(
-//        generator = ObjectIdGenerators.PropertyGenerator.class,
-//        property = "id"
-//)
 public class User extends Timestamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
