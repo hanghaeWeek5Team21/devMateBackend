@@ -1,14 +1,15 @@
 package com.sparta.devmatebackend.config;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration("domain")
 @ConfigurationProperties(prefix = "config.domain")
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-@Setter
 public class DomainConfig {
-    private String fullName;
+    private final String fullName;
 }
