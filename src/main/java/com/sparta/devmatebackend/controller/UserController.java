@@ -1,4 +1,5 @@
 package com.sparta.devmatebackend.controller;
+import com.sparta.devmatebackend.dto.CommentResponseDto;
 import com.sparta.devmatebackend.dto.ResMesResultResponseDto;
 import com.sparta.devmatebackend.dto.UserRequestDto;
 import com.sparta.devmatebackend.models.User;
@@ -38,72 +39,53 @@ public class UserController {
 
     // 회원가입
     @PostMapping("api/user")
-    public ResMesResultResponseDto createUser(@RequestBody UserRequestDto userRequestDto){
-        ResMesResultResponseDto resDto = new ResMesResultResponseDto();
-        resDto.setResult(null);
+    public CommentResponseDto createUser(@RequestBody UserRequestDto userRequestDto){
+        CommentResponseDto commentResponseDto;
         try{
             userService.createUser(userRequestDto);
-            resDto.setRes(true);
-            resDto.setMsg("회원가입이 완료되었습니다.");
+            commentResponseDto = new CommentResponseDto(true, "회원가입이 완료되었습니다.");
         }catch (Exception e){
-            resDto.setRes(false);
-            resDto.setMsg(e.getMessage());
-            System.out.println(e.getMessage());
+            commentResponseDto = new CommentResponseDto(false, e.getMessage());
         }
-        return resDto;
+        return commentResponseDto;
     }
 
     // 회원수정
     @PatchMapping("api/user")
-    public ResMesResultResponseDto updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestBody UserRequestDto userRequestDto){
-        System.out.println("userDetails = " + userDetails);
-        ResMesResultResponseDto resDto = new ResMesResultResponseDto();
-        resDto.setResult(null);
+    public CommentResponseDto updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails,@RequestBody UserRequestDto userRequestDto){
+        CommentResponseDto commentResponseDto;
         try{
             userService.updateUser(userDetails, userRequestDto);
-            resDto.setRes(true);
-            resDto.setMsg("유저가 정상적으로 수정되었습니다.");
+            commentResponseDto = new CommentResponseDto(true, "유저가 정상적으로 수정되었습니다.");
         }catch (Exception e){
-            resDto.setRes(false);
-            resDto.setMsg(e.getMessage());
-            System.out.println(e.getMessage());
+            commentResponseDto = new CommentResponseDto(false, e.getMessage());
         }
-        return resDto;
+        return commentResponseDto;
     }
 
     // 회원 전체 조회
     @GetMapping("api/user")
     public ResMesResultResponseDto getAllUser(){
-        ResMesResultResponseDto resDto = new ResMesResultResponseDto();
+        ResMesResultResponseDto resMesResultResponseDto;
         try{
             List<User> allUser = userRepository.findAllByOrderByModifiedAtDesc();
-            resDto.setRes(true);
-            resDto.setResult(allUser);
-            resDto.setMsg("모든 user 가 정상적으로 조회되었습니다.");
+            resMesResultResponseDto = new ResMesResultResponseDto(true,"모든 user 가 정상적으로 조회되었습니다.", allUser);
         }catch (Exception e){
-            resDto.setRes(false);
-            resDto.setResult(null);
-            resDto.setMsg(e.getMessage());
-            System.out.println(e.getMessage());
+            resMesResultResponseDto = new ResMesResultResponseDto(false, e.getMessage(), null);
         }
-        return resDto;
+        return resMesResultResponseDto;
     }
 
     // 회원 단일 조회
     @GetMapping("api/user/{id}")
     public ResMesResultResponseDto getSingleUser(@PathVariable Long id){
-        ResMesResultResponseDto resDto = new ResMesResultResponseDto();
+        ResMesResultResponseDto resMesResultResponseDto;
         try{
             User user = userRepository.getById(id);
-            resDto.setRes(true);
-            resDto.setResult(user);
-            resDto.setMsg("단일 user 가 정상적으로 조회되었습니다.");
+            resMesResultResponseDto = new ResMesResultResponseDto(true,"단일 user 가 정상적으로 조회되었습니다.", user);
         }catch (Exception e){
-            resDto.setRes(false);
-            resDto.setResult(null);
-            resDto.setMsg(e.getMessage());
-            System.out.println(e.getMessage());
+            resMesResultResponseDto = new ResMesResultResponseDto(false, e.getMessage(), null);
         }
-        return resDto;
+        return resMesResultResponseDto;
     }
 }

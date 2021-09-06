@@ -1,12 +1,10 @@
 package com.sparta.devmatebackend.dto;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 @Getter
-@Setter
-@RequiredArgsConstructor
 public class CommentPutRequestDto {
     private String contents;
 }

@@ -40,7 +40,7 @@ public class FileUploadController {
 
     @PostMapping("api/file/image")
     public ResMesResultResponseDto handleImageUpload(@RequestParam("file") MultipartFile file) {
-        ResMesResultResponseDto resDto = new ResMesResultResponseDto();
+        ResMesResultResponseDto resMesResultResponseDto;
         try {
             // 파일의 크기를 확인합니다.
             if (storageService.fileOverSize(file, MAX_FILE_BYTES)) {
@@ -74,16 +74,13 @@ public class FileUploadController {
             // 업로드된 파일 URL 을 받습니다.
             String url = s3Object.getObjectUrl(savedFile);
 
-            resDto.setRes(true);
-            resDto.setMsg("파일이 서버에 저장되었습니다.");
-            resDto.setResult(url);
+            resMesResultResponseDto = new ResMesResultResponseDto(true, "파일이 서버에 저장되었습니다.", url);
 
         } catch (Exception e) {
-            resDto.setRes(false);
-            resDto.setMsg(e.getMessage());
+            resMesResultResponseDto = new ResMesResultResponseDto(false, e.getMessage(), null);
             System.out.println("e.getMessage() = " + e.getMessage());
         }
 
-        return resDto;
+        return resMesResultResponseDto;
     }
 }

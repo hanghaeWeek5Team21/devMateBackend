@@ -1,12 +1,10 @@
 package com.sparta.devmatebackend.dto;
 
 import com.sparta.devmatebackend.models.Skill;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
-@Setter
 @Getter
 public class UserRequestDto {
     private String username;

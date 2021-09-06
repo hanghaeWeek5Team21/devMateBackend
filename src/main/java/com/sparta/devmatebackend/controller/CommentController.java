@@ -25,48 +25,43 @@ public class CommentController {
     private final UserRepository userRepository;
 
     @PostMapping("api/comment")
+    // TODO : ResponseEntity 로 변경하기
     public CommentResponseDto create(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody CommentRequestDto commentRequestDto) {
-        CommentResponseDto respDto = new CommentResponseDto();
+        CommentResponseDto commentResponseDto;
         try {
             commentService.create(commentRequestDto, userDetails);
-            respDto.setRes(true);
-            respDto.setMsg("댓글이 작성되었습니다.");
+            commentResponseDto = new CommentResponseDto(true, "댓글이 작성되었습니다.");
         } catch (Exception e) {
-            respDto.setRes(false);
-            respDto.setMsg(e.getMessage());
-            System.out.println("e.getMessage() = " + e.getMessage());
+            // TODO : exception 처리하는 globalExceptionController 로 처리방법 변경하기
+            commentResponseDto = new CommentResponseDto(false, e.getMessage());
         }
-        return respDto;
+        return commentResponseDto;
     }
 
     @DeleteMapping("api/comment/{id}")
     public CommentResponseDto delete(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long id) {
-        CommentResponseDto respDto = new CommentResponseDto();
+        CommentResponseDto commentResponseDto;
         try {
             commentService.delete(id, userDetails);
-            respDto.setRes(true);
-            respDto.setMsg("댓글이 삭제되었습니다.");
+            commentResponseDto = new CommentResponseDto(true, "댓글이 삭제되었습니다.");
         } catch (Exception e) {
-            respDto.setRes(false);
-            respDto.setMsg(e.getMessage());
-            System.out.println("e.getMessage() = " + e.getMessage());
+            // TODO : exception 처리하는 globalExceptionController 로 처리방법 변경하기
+            commentResponseDto = new CommentResponseDto(false, e.getMessage());
         }
-        return respDto;
+        return commentResponseDto;
     }
 
     @PatchMapping("api/comment/{id}")
     public CommentResponseDto update(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody CommentPutRequestDto requestDto) {
-        CommentResponseDto respDto = new CommentResponseDto();
+        CommentResponseDto commentResponseDto;
         try {
             commentService.update(id, requestDto, userDetails);
-            respDto.setRes(true);
-            respDto.setMsg("댓글이 수정되었습니다.");
+            commentResponseDto = new CommentResponseDto(true, "댓글이 수정되었습니다.");
         } catch (Exception e) {
-            respDto.setRes(false);
-            respDto.setMsg(e.getMessage());
-            System.out.println("e.getMessage() = " + e.getMessage());
+            // TODO : exception 처리하는 globalExceptionController 로 처리방법 변경하기
+            commentResponseDto = new CommentResponseDto(false, e.getMessage());
         }
-        return respDto;
+        return commentResponseDto;
     }
 
     @GetMapping("api/comment")
