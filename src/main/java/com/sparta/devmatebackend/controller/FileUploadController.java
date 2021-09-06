@@ -27,7 +27,8 @@ import java.net.URI;
 @RestController
 public class FileUploadController {
 
-    private final Long MAX_FILE_BYTES = 536870912L;
+    private static final Long MAX_FILE_BYTES = 536870912L;
+    private static final Long MAX_FILES_MEGABYTES = 512L;
     private final StorageService storageService;
     private final S3Object s3Object;
     private final StorageConfig storageConfig;
@@ -46,7 +47,7 @@ public class FileUploadController {
 
         // 파일의 크기를 확인합니다.
         if (storageService.fileOverSize(file, MAX_FILE_BYTES)) {
-            throw new FileOverMaxSizeException("파일이 512MB를 넘습니다.");
+            throw new FileOverMaxSizeException(MAX_FILES_MEGABYTES);
         }
 
         // 파일을 저장합니다.
@@ -54,8 +55,7 @@ public class FileUploadController {
 
         // 파일의 모든 이름, 확장자, 위치를 가져옵니다.
         String fileName = savedFile.getName();
-        String fileExtension = FileNameUtils.getExtensionFromFileName(savedFile.getName())
-                .orElseThrow(() -> new FileNoExtensionException("파일에 확장자가 없습니다."));
+        String fileExtension = FileNameUtils.getExtensionFromFileName(fileName).orElseThrow(FileNoExtensionException::new);
         String fileLocation = "./" + storageConfig.getLocation() + "/";
 
         // 파일이 s3에 중복되는지 확인합니다.
@@ -66,7 +66,7 @@ public class FileUploadController {
             if (savedFile.renameTo(new File(fileLocation + fileName))) {
                 savedFile = new File(fileLocation + fileName);
             } else {
-                throw new FileRenameException("파일의 이름을 바꾸지 못합니다.");
+                throw new FileRenameException();
             }
         }
 
