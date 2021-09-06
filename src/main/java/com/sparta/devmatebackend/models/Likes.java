@@ -3,16 +3,15 @@ package com.sparta.devmatebackend.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-@NoArgsConstructor
 public class Likes extends Timestamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

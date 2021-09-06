@@ -29,9 +29,7 @@ public class LikesService {
         likesRepository.findByAuthorAndUser(author, user)
             .ifPresent(x -> {throw new RuntimeException("같은 회원을 2번 좋아요 할 수 없습니다.");});
 
-        Likes like = new Likes();
-        like.setUser(user);
-        like.setAuthor(author);
+        Likes like = new Likes(user, author);
         likesRepository.save(like);
     }
 
