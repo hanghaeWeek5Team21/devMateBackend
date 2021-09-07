@@ -2,7 +2,6 @@ package com.sparta.devmatebackend.controller;
 
 import com.sparta.devmatebackend.aws.s3.S3Object;
 import com.sparta.devmatebackend.config.StorageConfig;
-import com.sparta.devmatebackend.dto.responseDto.ResMesResultResponseDto;
 import com.sparta.devmatebackend.exception.file.FileNoExtensionException;
 import com.sparta.devmatebackend.exception.file.FileOverMaxSizeException;
 import com.sparta.devmatebackend.exception.file.FileRenameException;
@@ -43,7 +42,7 @@ public class FileUploadController {
     }
 
     @PostMapping("api/file/image")
-    public ResponseEntity<ResMesResultResponseDto> handleImageUpload(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<String> handleImageUpload(@RequestParam("file") MultipartFile file) throws IOException {
 
         // 파일의 크기를 확인합니다.
         if (storageService.fileOverSize(file, MAX_FILE_BYTES)) {
@@ -78,6 +77,6 @@ public class FileUploadController {
 
         URI currentRequest = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
 
-        return ResponseEntity.created(currentRequest).body(new ResMesResultResponseDto(true, "파일이 서버에 저장되었습니다.", s3ObjectUrl));
+        return ResponseEntity.created(currentRequest).body(s3ObjectUrl);
     }
 }
