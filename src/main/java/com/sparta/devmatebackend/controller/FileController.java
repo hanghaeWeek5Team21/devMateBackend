@@ -1,13 +1,6 @@
 package com.sparta.devmatebackend.controller;
 
-import com.sparta.devmatebackend.aws.s3.S3Object;
-import com.sparta.devmatebackend.config.StorageConfig;
-import com.sparta.devmatebackend.exception.file.FileNoExtensionException;
-import com.sparta.devmatebackend.exception.file.FileOverMaxSizeException;
-import com.sparta.devmatebackend.exception.file.FileRenameException;
-import com.sparta.devmatebackend.service.StorageService;
-import com.sparta.devmatebackend.utils.FileNameUtils;
-import com.sparta.devmatebackend.utils.StringUtils;
+import com.sparta.devmatebackend.service.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -24,12 +17,7 @@ import java.net.URI;
 @RequiredArgsConstructor
 @RestController
 public class FileController {
-
-    private static final Long MAX_FILE_BYTES = 536870912L;
-    private static final Long MAX_FILES_MEGABYTES = 512L;
-    private final StorageService storageService;
-    private final S3Object s3Object;
-    private final StorageConfig storageConfig;
+    private final FileService fileService;
 
     //create
     @PostMapping("api/file/image")

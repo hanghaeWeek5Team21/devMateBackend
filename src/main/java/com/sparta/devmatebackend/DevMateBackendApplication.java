@@ -1,6 +1,6 @@
 package com.sparta.devmatebackend;
 
-import com.sparta.devmatebackend.service.StorageService;
+import com.sparta.devmatebackend.service.FileService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,11 +18,11 @@ public class DevMateBackendApplication {
 
     // 시작할 때
     @Bean
-    CommandLineRunner init(StorageService storageService) {
+    CommandLineRunner init(FileService fileService) {
         return (args) -> {
             // 모든 파일을 삭제합니다.
-            storageService.deleteAll();
-            storageService.init();
+            fileService.deleteAll();
+            fileService.init();
         };
     }
 }
