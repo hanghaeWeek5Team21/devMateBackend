@@ -1,7 +1,7 @@
 package com.sparta.devmatebackend.service;
 
-import com.sparta.devmatebackend.dto.CommentPutRequestDto;
-import com.sparta.devmatebackend.dto.CommentRequestDto;
+import com.sparta.devmatebackend.dto.requestDto.CommentPutRequestDto;
+import com.sparta.devmatebackend.dto.requestDto.CommentRequestDto;
 import com.sparta.devmatebackend.models.Comment;
 import com.sparta.devmatebackend.repository.CommentRepository;
 import com.sparta.devmatebackend.repository.UserRepository;

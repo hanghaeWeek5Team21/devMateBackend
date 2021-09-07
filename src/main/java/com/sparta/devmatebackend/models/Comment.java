@@ -1,7 +1,7 @@
 package com.sparta.devmatebackend.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.sparta.devmatebackend.dto.CommentPutRequestDto;
+import com.sparta.devmatebackend.dto.requestDto.CommentPutRequestDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

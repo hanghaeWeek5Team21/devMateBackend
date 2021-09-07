@@ -1,12 +1,11 @@
-package com.sparta.devmatebackend.dto;
+package com.sparta.devmatebackend.dto.responseDto;
 
 import lombok.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @Getter
-public class ResMesResultResponseDto {
+public class CommentResponseDto {
     private boolean res;
     private String msg;
-    private Object result;
 }

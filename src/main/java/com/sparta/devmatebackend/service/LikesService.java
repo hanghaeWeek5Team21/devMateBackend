@@ -1,6 +1,6 @@
 package com.sparta.devmatebackend.service;
 
-import com.sparta.devmatebackend.dto.LikePutRequestDto;
+import com.sparta.devmatebackend.dto.requestDto.LikePutRequestDto;
 import com.sparta.devmatebackend.models.Likes;
 import com.sparta.devmatebackend.models.User;
 import com.sparta.devmatebackend.repository.LikesRepository;

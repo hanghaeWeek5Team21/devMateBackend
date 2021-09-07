@@ -1,6 +1,6 @@
 package com.sparta.devmatebackend.service;
 
-import com.sparta.devmatebackend.dto.UserRequestDto;
+import com.sparta.devmatebackend.dto.requestDto.UserRequestDto;
 import com.sparta.devmatebackend.models.User;
 import com.sparta.devmatebackend.repository.UserRepository;
 import com.sparta.devmatebackend.security.UserDetailsImpl;

@@ -1,4 +1,4 @@
-package com.sparta.devmatebackend.dto;
+package com.sparta.devmatebackend.dto.requestDto;
 
 import com.sparta.devmatebackend.models.Skill;
 import lombok.*;

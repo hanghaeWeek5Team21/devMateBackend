@@ -1,7 +1,7 @@
 package com.sparta.devmatebackend.models;
 
 import com.fasterxml.jackson.annotation.*;
-import com.sparta.devmatebackend.dto.UserRequestDto;
+import com.sparta.devmatebackend.dto.requestDto.UserRequestDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

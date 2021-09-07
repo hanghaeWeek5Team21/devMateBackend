@@ -1,7 +1,7 @@
 package com.sparta.devmatebackend.controller;
-import com.sparta.devmatebackend.dto.CommentResponseDto;
-import com.sparta.devmatebackend.dto.ResMesResultResponseDto;
-import com.sparta.devmatebackend.dto.UserRequestDto;
+import com.sparta.devmatebackend.dto.responseDto.CommentResponseDto;
+import com.sparta.devmatebackend.dto.responseDto.ResMesResultResponseDto;
+import com.sparta.devmatebackend.dto.requestDto.UserRequestDto;
 import com.sparta.devmatebackend.models.User;
 import com.sparta.devmatebackend.repository.UserRepository;
 import com.sparta.devmatebackend.security.UserDetailsImpl;

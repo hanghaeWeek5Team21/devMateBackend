@@ -2,7 +2,7 @@ package com.sparta.devmatebackend.controller;
 
 import com.sparta.devmatebackend.aws.s3.S3Object;
 import com.sparta.devmatebackend.config.StorageConfig;
-import com.sparta.devmatebackend.dto.ResMesResultResponseDto;
+import com.sparta.devmatebackend.dto.responseDto.ResMesResultResponseDto;
 import com.sparta.devmatebackend.exception.file.FileNoExtensionException;
 import com.sparta.devmatebackend.exception.file.FileOverMaxSizeException;
 import com.sparta.devmatebackend.exception.file.FileRenameException;

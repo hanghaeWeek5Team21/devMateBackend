@@ -1,7 +1,7 @@
 package com.sparta.devmatebackend.controller;
 
-import com.sparta.devmatebackend.dto.CommentResponseDto;
-import com.sparta.devmatebackend.dto.LikePutRequestDto;
+import com.sparta.devmatebackend.dto.responseDto.CommentResponseDto;
+import com.sparta.devmatebackend.dto.requestDto.LikePutRequestDto;
 import com.sparta.devmatebackend.security.UserDetailsImpl;
 import com.sparta.devmatebackend.service.LikesService;
 import lombok.RequiredArgsConstructor;
