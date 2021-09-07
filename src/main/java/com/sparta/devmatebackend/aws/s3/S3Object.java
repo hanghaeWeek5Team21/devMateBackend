@@ -15,8 +15,8 @@ import java.net.URLConnection;
 
 @Component
 public class S3Object {
-    private Regions clientRegion = Regions.AP_NORTHEAST_2;
-    private String BUCKET_NAME = "devmate/image";
+    private final Regions clientRegion = Regions.AP_NORTHEAST_2;
+    private final String BUCKET_NAME = "devmate/image";
 
 
     public void upload(File file) throws IOException, SdkClientException {

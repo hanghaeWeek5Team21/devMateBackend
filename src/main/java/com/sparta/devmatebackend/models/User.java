@@ -28,19 +28,19 @@ public class User extends Timestamped{
 
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
-    private List<Comment> comments = new ArrayList<>();
+    private final List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "author")
     @JsonIgnore
-    private List<Comment> createdComments = new ArrayList<>();
+    private final List<Comment> createdComments = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
-    private List<Likes> likes = new ArrayList<>();
+    private final List<Likes> likes = new ArrayList<>();
 
     @OneToMany(mappedBy = "author")
     @JsonIgnore
-    private List<Likes> createdLikes = new ArrayList<>();
+    private final List<Likes> createdLikes = new ArrayList<>();
 
     public User(UserRequestDto userRequestDto, String password){
         this.username = userRequestDto.getUsername();
