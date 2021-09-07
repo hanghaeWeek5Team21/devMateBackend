@@ -5,9 +5,63 @@
 
 작업공간 : 게더타운, 노션
 
+* ## Refactoring
+    * 이전 코드를 가장 최신에 배운 내용들을 적용하며 refactoring 하였습니다.    
+      <br>
+      
+    * <details>
+      <summary>
+      변경내용
+      </summary>
+      <br>
+      
+      * Setter 를 최대한 닫았습니다.
+      * @NoArgsConstructor, @AllArgsConstructor 의 accessLevel 을 모두 PROTECTED 로 변경하였습니다.
+      * 기존 responseDto body 에서 true, false 를 반환하는 방식에서 ResponseEntity, GlobalExceptionHandler 로 변경하였습니다.   
+      * 비즈니스 로직은 최대한 service 에 넣었습니다.
+      * HardCoding 을 피하고자 static final 을 활용하였습니다.
+      * 불필요한 생성자를 삭제하고 로직에 필요한 생성자의 형태로 만들어 사용하였습니다. (User)
+      * Security 를 간결하게 정리하였습니다. (.antMatchers 부분)
+      * Exception 에 message 를 직접 전달할 필요가 없을 정도로 클래스명이 구체적이라서 message 를 내부 변수로 변경했습니다.
+      * Controller 를 crud 로 분리 (best case 한 방식인지는 아직 모르겠습니다...)
+    
+      ```java
+      /* TODO : GlobalExceptionHandler 를 만들기
+       * Response 또한 모두 Dto 클래스를 만들어 반환하기
+       */ 
+      ```
+      </details>
+      <br>
+
 * ## 결과
-    * [프로젝트 링크](http://www.devmate.org/)
-    * [유튜브 링크](https://www.youtube.com/watch?v=iSRJttPh7XU)
+    * [프로젝트 링크](http://www.devmate.org/)    
+      <br>
+      
+    * [유튜브 링크](https://www.youtube.com/watch?v=iSRJttPh7XU)   
+      <br>
+      
+    * <details>
+      <summary>
+      이미지
+      </summary>
+      <br>
+
+      Home 페이지   
+      
+      ![](https://images.velog.io/images/goplanit/post/e266269d-0013-4a5c-9742-f27391f91656/image.png)
+    
+      회원가입 페이지   
+      
+      ![](https://images.velog.io/images/goplanit/post/a5a96148-a0b6-48d8-8d88-1505f3f24543/image.png)
+    
+      로그인 페이지   
+      
+      ![](https://images.velog.io/images/goplanit/post/c09d2172-14c8-4299-a4d7-ace9bcb4bed3/image.png)
+    
+      상세 페이지   
+      
+      ![](https://images.velog.io/images/goplanit/post/7dba9e2a-356e-4ed1-acb8-9492a5d99597/image.png)
+      </details>
       <br>
 
 * ## Project
