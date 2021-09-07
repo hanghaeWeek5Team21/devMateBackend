@@ -1,7 +1,7 @@
 package com.sparta.devmatebackend.service;
 
-import com.sparta.devmatebackend.dto.requestDto.CommentPutRequestDto;
-import com.sparta.devmatebackend.dto.requestDto.CommentRequestDto;
+import com.sparta.devmatebackend.dto.requestDto.CommentUpdateRequestDto;
+import com.sparta.devmatebackend.dto.requestDto.CommentCreateRequestDto;
 import com.sparta.devmatebackend.models.Comment;
 import com.sparta.devmatebackend.repository.CommentRepository;
 import com.sparta.devmatebackend.repository.UserRepository;
@@ -19,7 +19,7 @@ public class CommentService {
 
     // create
     @Transactional
-    public void create(CommentRequestDto requestDto, UserDetailsImpl userDetails){
+    public void create(CommentCreateRequestDto requestDto, UserDetailsImpl userDetails){
         if (userDetails == null){
             throw new IllegalArgumentException("로그인되어 있지 않습니다.");
         }
@@ -34,7 +34,7 @@ public class CommentService {
 
     // update
     @Transactional
-    public Long update(Long id, CommentPutRequestDto commentPutRequestDto, UserDetailsImpl userDetails) throws IllegalAccessException {
+    public Long update(Long id, CommentUpdateRequestDto commentUpdateRequestDto, UserDetailsImpl userDetails) throws IllegalAccessException {
         if (userDetails == null){
             throw new IllegalArgumentException("로그인되어 있지 않습니다.");
         }
@@ -44,7 +44,7 @@ public class CommentService {
         if (!comment.getAuthor().getId().equals(userDetails.getUser().getId())){
             throw new IllegalAccessException("로그인된 유저가 작성한 댓글이 아닙니다.");
         }
-        comment.update(commentPutRequestDto);
+        comment.update(commentUpdateRequestDto);
         return comment.getId();
     }
 

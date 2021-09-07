@@ -5,6 +5,6 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @Getter
-public class CommentPutRequestDto {
+public class CommentUpdateRequestDto {
     private String contents;
 }

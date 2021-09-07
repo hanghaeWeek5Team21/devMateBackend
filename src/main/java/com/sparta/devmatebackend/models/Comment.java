@@ -1,7 +1,7 @@
 package com.sparta.devmatebackend.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.sparta.devmatebackend.dto.requestDto.CommentPutRequestDto;
+import com.sparta.devmatebackend.dto.requestDto.CommentUpdateRequestDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,7 +35,7 @@ public class Comment extends Timestamped{
         this.author = author;
     }
 
-    public void update(CommentPutRequestDto requestDto){
+    public void update(CommentUpdateRequestDto requestDto){
         this.contents = requestDto.getContents();
     }
 }
