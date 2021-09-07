@@ -6,13 +6,14 @@ import com.sparta.devmatebackend.models.Comment;
 import com.sparta.devmatebackend.repository.CommentRepository;
 import com.sparta.devmatebackend.repository.UserRepository;
 import com.sparta.devmatebackend.security.UserDetailsImpl;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommentService {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;

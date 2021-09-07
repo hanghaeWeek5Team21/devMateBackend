@@ -2,7 +2,7 @@ package com.sparta.devmatebackend.dto.requestDto;
 
 import lombok.*;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
 public class LikePutRequestDto {

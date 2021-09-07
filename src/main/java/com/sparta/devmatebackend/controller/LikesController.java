@@ -3,6 +3,7 @@ package com.sparta.devmatebackend.controller;
 import com.sparta.devmatebackend.dto.requestDto.LikePutRequestDto;
 import com.sparta.devmatebackend.security.UserDetailsImpl;
 import com.sparta.devmatebackend.service.LikesService;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,7 +14,7 @@ import java.net.URI;
 
 @CrossOrigin(origins = {"${config.domain.full-name}"}, allowCredentials = "true")
 @RestController
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class LikesController {
 
     private final LikesService likesService;

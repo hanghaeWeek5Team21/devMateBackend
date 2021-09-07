@@ -1,6 +1,7 @@
 package com.sparta.devmatebackend.controller;
 
 import com.sparta.devmatebackend.service.FileService;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -14,8 +15,8 @@ import java.net.URI;
 
 
 @CrossOrigin(origins = {"${config.domain.full-name}"}, allowCredentials = "true")
-@RequiredArgsConstructor
 @RestController
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class FileController {
     private final FileService fileService;
 

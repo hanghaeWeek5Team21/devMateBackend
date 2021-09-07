@@ -8,6 +8,7 @@ import com.sparta.devmatebackend.repository.CommentRepository;
 import com.sparta.devmatebackend.repository.UserRepository;
 import com.sparta.devmatebackend.security.UserDetailsImpl;
 import com.sparta.devmatebackend.service.CommentService;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,7 +20,7 @@ import java.util.List;
 
 @CrossOrigin(origins = {"${config.domain.full-name}"}, allowCredentials = "true")
 @RestController
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommentController {
 
     private final CommentService commentService;

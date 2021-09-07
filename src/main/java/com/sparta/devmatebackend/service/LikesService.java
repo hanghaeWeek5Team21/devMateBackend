@@ -6,13 +6,14 @@ import com.sparta.devmatebackend.models.User;
 import com.sparta.devmatebackend.repository.LikesRepository;
 import com.sparta.devmatebackend.repository.UserRepository;
 import com.sparta.devmatebackend.security.UserDetailsImpl;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class LikesService {
     private final LikesRepository likesRepository;
     private final UserRepository userRepository;

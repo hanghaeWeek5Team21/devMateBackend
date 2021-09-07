@@ -4,6 +4,7 @@ import com.sparta.devmatebackend.dto.requestDto.UserRequestDto;
 import com.sparta.devmatebackend.models.User;
 import com.sparta.devmatebackend.repository.UserRepository;
 import com.sparta.devmatebackend.security.UserDetailsImpl;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,8 +12,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;

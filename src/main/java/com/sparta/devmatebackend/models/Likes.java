@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Entity
 public class Likes extends Timestamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

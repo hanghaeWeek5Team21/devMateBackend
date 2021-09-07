@@ -3,7 +3,7 @@ package com.sparta.devmatebackend.dto.requestDto;
 import com.sparta.devmatebackend.models.Skill;
 import lombok.*;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
 public class UserRequestDto {
