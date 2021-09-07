@@ -18,6 +18,7 @@ public class LikesController {
 
     private final LikesService likesService;
 
+    //create
     @PostMapping("api/likes")
     public ResponseEntity<Void> create(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody LikePutRequestDto likePutRequestDto) {
         likesService.create(likePutRequestDto, userDetails);
@@ -25,6 +26,11 @@ public class LikesController {
         return ResponseEntity.created(currentRequest).build();
     }
 
+    //read
+
+    //update
+
+    //delete
     @DeleteMapping("api/likes/{id}")
     public ResponseEntity<Void> delete(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long id) throws IllegalAccessException {
         likesService.delete(id, userDetails);
