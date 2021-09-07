@@ -10,7 +10,6 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URLConnection;
 
 @Component
@@ -19,7 +18,7 @@ public class S3Object {
     private final String BUCKET_NAME = "devmate/image";
 
 
-    public void upload(File file) throws IOException, SdkClientException {
+    public void upload(File file) throws SdkClientException {
         AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
                 .withRegion(clientRegion)
                 .build();
