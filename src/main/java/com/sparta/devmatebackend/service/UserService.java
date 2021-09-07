@@ -59,9 +59,6 @@ public class UserService {
     // update
     @Transactional
     public void updateUser(UserDetailsImpl userDetails, UserRequestDto userRequestDto){
-        if (userDetails == null){
-            throw new IllegalArgumentException("회원이 로그인되어 있지 않습니다.");
-        }
         User user = userDetails.getUser();
         user.update(userRequestDto, passwordEncoder.encode(userRequestDto.getPassword()));
         userRepository.save(user);

@@ -19,9 +19,6 @@ public class LikesService {
 
     @Transactional
     public void create(LikePutRequestDto likePutRequestDto, UserDetailsImpl userDetails) {
-        if (userDetails == null){
-            throw new IllegalArgumentException("로그인되어 있지 않습니다.");
-        }
         User user = userRepository.getById(likePutRequestDto.getUser_id());
         User author = userDetails.getUser();
         System.out.println("author = " + author.getId());
@@ -35,9 +32,6 @@ public class LikesService {
 
     @Transactional
     public void delete(Long id, UserDetailsImpl userDetails)throws IllegalAccessException {
-        if (userDetails == null){
-            throw new IllegalArgumentException("로그인되어 있지 않습니다.");
-        }
         Likes likes = likesRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 좋아요입니다.")
         );
