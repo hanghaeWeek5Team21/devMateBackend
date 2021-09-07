@@ -24,7 +24,7 @@ import java.net.URI;
 @CrossOrigin(origins = {"${config.domain.full-name}"}, allowCredentials = "true")
 @RequiredArgsConstructor
 @RestController
-public class FileUploadController {
+public class FileController {
 
     private static final Long MAX_FILE_BYTES = 536870912L;
     private static final Long MAX_FILES_MEGABYTES = 512L;
@@ -32,17 +32,9 @@ public class FileUploadController {
     private final S3Object s3Object;
     private final StorageConfig storageConfig;
 
-    @GetMapping("api/file/image/{filename:.+}")
-    @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-        // 파일을 서버에서 다운로드 받기
-        Resource file = storageService.loadAsResource(filename);
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-    }
-
+    //create
     @PostMapping("api/file/image")
-    public ResponseEntity<String> handleImageUpload(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<String> create(@RequestParam("file") MultipartFile file) throws IOException {
 
         // 파일의 크기를 확인합니다.
         if (storageService.fileOverSize(file, MAX_FILE_BYTES)) {
@@ -79,4 +71,19 @@ public class FileUploadController {
 
         return ResponseEntity.created(currentRequest).body(s3ObjectUrl);
     }
+
+    //read
+    @GetMapping("api/file/image/{filename:.+}")
+    @ResponseBody
+    public ResponseEntity<Resource> read(@PathVariable String filename) {
+        // 파일을 서버에서 다운로드 받기
+        Resource file = storageService.loadAsResource(filename);
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+    }
+
+    //update
+
+    //delete
+
 }
