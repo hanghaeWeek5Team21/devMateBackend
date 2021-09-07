@@ -38,7 +38,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.logout()
                 .logoutUrl(domainConfig.getFullName()+"/redirect/logout");
 
-        // TODO : Functional Security 권한 방식인
+        /* TODO : Functional Security 권한 방식이 더 유효한지 생각해보기
+         * @PreAuthorize @PostAuthorize @Secured
+         */
+
 
         //권한 열림
         http.authorizeRequests()
