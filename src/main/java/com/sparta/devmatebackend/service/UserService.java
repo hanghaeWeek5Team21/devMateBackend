@@ -50,7 +50,7 @@ public class UserService {
     }
 
     // read
-    public boolean isLoginIdDuplicate(String loginId){
+    public boolean isUsernameDuplicate(String loginId){
         // 아이디 중복 확인에 따른 bool
         List<User> userList = userRepository.findAllByUsername(loginId);
         return !userList.isEmpty();
